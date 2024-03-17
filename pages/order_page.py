@@ -1,82 +1,87 @@
-import re
-
 from pages.base_page import BasePage
-from utils.locators import YaScooterOrderPageLocator as Locators
+from locators.home_page_locators import HomePageLocators
+from locators.order_page_locators import OrderPageLocators
 import allure
 
 
-class YaScooterOrderPage(BasePage):
-    @allure.step('Ввод фамилии')
-    def input_last_name(self, last_name: str):
-        return self.find_element(Locators.LAST_NAME_INPUT).send_keys(last_name)
+class OrderPage(BasePage):
+    @allure.step('Клик на кнопку "Заказать" в шапке главной')
+    def click_header_order_btn(self):
+        self.click_to_element(HomePageLocators.ORDER_BTN_HEADER)
 
-    @allure.step('Ввод имени')
-    def input_first_name(self, first_name: str):
-        return self.find_element(Locators.FIRST_NAME_INPUT).send_keys(first_name)
+    @allure.step('Клик на кнопку "Заказать" в середине главной страницы')
+    def click_main_order_btn(self):
+        self.click_to_element(HomePageLocators.ORDER_BTN_PAGE)
 
-    @allure.step('Ввод адреса')
-    def input_address(self, address: str):
-        return self.find_element(Locators.ADDRESS_INPUT).send_keys(address)
+    @allure.step('Заполнение поля "Имя"')
+    def set_name(self, name):
+        self.set_text(OrderPageLocators.NAME_FIELD, name)
 
-    @allure.step('Выбор метро')
-    def choose_subway(self, subway_name: str):
-        self.find_element(Locators.SUBWAY_FIELD).click()
-        return self.find_element(Locators.SUBWAY_HINT_BUTTON(subway_name)).click()
+    @allure.step('Заполнение поля "Фамилия"')
+    def set_last_name(self, last_name):
+        self.set_text(OrderPageLocators.LAST_NAME_FIELD, last_name)
 
-    @allure.step('Ввод номера телефона')
-    def input_telephone_number(self, telephone_number: str):
-        return self.find_element(Locators.TELEPHONE_NUMBER_FIELD).send_keys(telephone_number)
+    @allure.step('Заполнение поля "Адрес"')
+    def set_address(self, address):
+        self.set_text(OrderPageLocators.ADDRESS_FIELD, address)
 
-    @allure.step('Перейти на следующий этап заказа')
-    def go_next(self):
-        return self.find_element(Locators.NEXT_BUTTON).click()
+    @allure.step('Выбор станции метро')
+    def set_metro(self, station):
+        self.find_element(OrderPageLocators.METRO_FIELD)
+        self.click_to_element(OrderPageLocators.METRO_FIELD)
+        self.click_to_element(station)
 
-    @allure.step('Ввод даты')
-    def input_date(self, date: str):
-        return self.find_element(Locators.DATE_FIELD).send_keys(date)
+    @allure.step('Заполнение поля "Телефон"')
+    def set_phone(self, phone):
+        self.set_text(OrderPageLocators.PHONE_FIELD, phone)
 
-    @allure.step('Выбор периода аренды')
-    def choose_rental_period(self, option: int):
-        self.find_element(Locators.RENTAL_PERIOD_FIELD).click()
-        return self.find_elements(Locators.RENTAL_PERIOD_LIST)[option].click()
+    @allure.step('Клик по кнопке "Далее"')
+    def click_next_btn(self):
+        self.click_to_element(OrderPageLocators.NEXT_BTN)
+
+    @allure.step('Выбор даты доставки')
+    def set_date(self, date):
+        self.click_to_element(OrderPageLocators.DATE_FIELD)
+        self.find_element(date)
+        self.click_to_element(date)
+
+    @allure.step('Выбор срока аренды')
+    def set_term(self, term):
+        self.click_to_element(OrderPageLocators.RENT_FIELD)
+        self.find_element(term)
+        self.click_to_element(term)
 
     @allure.step('Выбор цвета')
-    def choose_color(self, option: int):
-        return self.find_elements(Locators.COLOR_CHECKBOXES)[option].click()
+    def set_color(self, color):
+        self.click_to_element(color)
 
-    @allure.step('Комментарий для курьера')
-    def input_comment(self, comment_text):
-        return self.find_element(Locators.COMMENT_FOR_COURIER_FIELD).send_keys(comment_text)
+    @allure.step('Заполнение поля "Комментарии"')
+    def set_comments(self, comments):
+        self.set_text(OrderPageLocators.COMMENTS, comments)
 
-    @allure.step('Нажать "Заказать"')
-    def click_order(self):
-        return self.find_element(Locators.ORDER_BUTTON).click()
+    @allure.step('Появление модального окна "Заказ оформлен"')
+    def check_success_order(self):
+        return self.find_element(OrderPageLocators.ORDER_SUCCESS_WINDOW).text
 
-    @allure.step('Подтвердить заказ')
-    def click_accept_order(self):
-        return self.find_element(Locators.ACCEPT_ORDER_BUTTON).click()
-
-    @allure.step('Вычитать номер заказа')
-    def get_order_number(self):
-        about_order_text = self.find_element(Locators.ORDER_COMPLETED_INFO).text
-        return ''.join(re.findall('[0-9]', about_order_text))
-
-    @allure.step('Перейти к статусу заказа')
-    def click_go_to_status(self):
-        return self.find_element(Locators.SHOW_STATUS_BUTTON).click()
-
-    @allure.step('Заполнить данные на этапе "Для кого самокат"')
-    def fill_user_data(self, data_set: dict):
-        self.input_first_name(data_set['first_name'])
-        self.input_last_name(data_set['last_name'])
-        self.input_address(data_set['address'])
-        self.choose_subway(data_set['subway_name'])
-        self.input_telephone_number(data_set['telepthone_number'])
-
-    @allure.step('Заполнить данные на этапе "Про аренду"')
-    def fill_rent_data(self, data_set: dict):
-        self.input_date(data_set['date'])
-        self.choose_rental_period(data_set['rental_period'])
-        for option in data_set['color']:
-            self.choose_color(option)
-        self.input_comment(data_set['comment_for_courier'])
+    def create_order(self,
+                     name,
+                     last_name,
+                     address,
+                     station,
+                     phone,
+                     date,
+                     term,
+                     color,
+                     comments):
+        self.set_name(name)
+        self.set_last_name(last_name)
+        self.set_address(address)
+        self.set_metro(station)
+        self.set_phone(phone)
+        self.click_next_btn()
+        self.set_date(date)
+        self.set_term(term)
+        self.set_color(color)
+        self.set_comments(comments)
+        self.click_to_element(OrderPageLocators.ORDER_BTN)
+        self.click_to_element(OrderPageLocators.YES_BTN)

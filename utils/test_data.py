@@ -13,12 +13,12 @@ class YaScooterOrderHeaderBtn:
     first_name = 'Иван'
     last_name = 'Иванов'
     address = 'улица Мира'
-    telepthone_number = '+79131235693'
-    comment_for_courier = 'буду дома поле шести вечера'
+    phone = '+79131235693'
+    comment = 'буду дома поле шести вечера'
 
 
 class YaScooterOrderMainBtn:
-    name = 'Ирина'
+    first_name = 'Ирина'
     last_name = 'Иванова'
     address = 'Моховая улица'
     phone = '89995174546'

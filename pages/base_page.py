@@ -1,27 +1,31 @@
-import allure
-from utils.urls import Urls
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
 
-    def find_element(self, locator, time=10):
-        return WebDriverWait(self.driver, time).until(EC.presence_of_element_located(locator),
-                                                      message=f"Can't find element by locator {locator}")
+    def find_element(self, locator):
+        return WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located(locator))
 
-    def find_elements(self, locator, time=10):
-        return WebDriverWait(self.driver, time).until(EC.presence_of_all_elements_located(locator),
-                                                      message=f"Can't find elements by locator {locator}")
+    def click_to_element(self, locator):
+        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable(locator))
+        self.driver.find_element(*locator).click()
 
-    @allure.step('Перейти по адресу')
-    def go_to_site(self, url=None):
-        if url is None:
-            url = Urls.MAIN_PAGE
-        self.driver.get(url)
+    def get_text(self, locator):
+        return WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located(locator)).text
 
-    @allure.step('Получить текущий URL')
-    def current_url(self):
-        return self.driver.current_url
+    def set_text(self, locator, text):
+        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable(locator))
+        self.driver.find_element(*locator).send_keys(text)
+
+    def scroll(self, locator):
+        element = self.find_element(locator)
+        return self.driver.execute_script("arguments[0].scrollIntoView();", element)
+
+    def get_cookies(self, locator):
+        WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located(locator)).click()
+
+    def wait_navigating_url(self, url):
+        WebDriverWait(self.driver, 10).until(expected_conditions.url_to_be(url))

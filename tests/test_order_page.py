@@ -1,41 +1,41 @@
 from conftest import driver
-from pages.main_page import MainPage
+from pages.home_page import HomePage
 from pages.order_page import OrderPage
-from locators.main_page_locators import MainPageLocators
+from locators.home_page_locators import HomePageLocators
 from locators.order_page_locators import OrderPageLocators
-from data import DataOrderHeaderBtn, DataOrderMainBtn
+from utils.test_data import YaScooterOrderHeaderBtn, YaScooterOrderMainBtn
 import allure
 
 
 class TestOrderPage:
     @allure.title('Проверка оформления заказа через кнопку "Заказать" в шапке главной страницы')
     def test_create_order_header_btn(self, driver):
-        MainPage(driver).get_cookies(MainPageLocators.COOKIES_BTN)
+        HomePage(driver).get_cookies(HomePageLocators.COOKIES_BTN)
         OrderPage(driver).click_header_order_btn()
-        OrderPage(driver).create_order(DataOrderHeaderBtn.name,
-                                       DataOrderHeaderBtn.last_name,
-                                       DataOrderHeaderBtn.address,
+        OrderPage(driver).create_order(YaScooterOrderHeaderBtn.first_name,
+                                       YaScooterOrderHeaderBtn.last_name,
+                                       YaScooterOrderHeaderBtn.address,
                                        OrderPageLocators.STATION_1,
-                                       DataOrderHeaderBtn.phone,
+                                       YaScooterOrderHeaderBtn.phone,
                                        OrderPageLocators.DATE_1,
                                        OrderPageLocators.TERM_1,
                                        OrderPageLocators.BLACK_COLOR,
-                                       DataOrderHeaderBtn.comment)
+                                       YaScooterOrderHeaderBtn.comment)
         text = OrderPage(driver).check_success_order()
         assert 'Заказ оформлен' in text
 
     @allure.title('Проверка оформления заказа через кнопку "Заказать" в середине главной страницы')
     def test_create_order_main_page_btn(self, driver):
-        MainPage(driver).get_cookies(MainPageLocators.COOKIES_BTN)
+        HomePage(driver).get_cookies(HomePageLocators.COOKIES_BTN)
         OrderPage(driver).click_main_order_btn()
-        OrderPage(driver).create_order(DataOrderMainBtn.name,
-                                       DataOrderMainBtn.last_name,
-                                       DataOrderMainBtn.address,
+        OrderPage(driver).create_order(YaScooterOrderMainBtn.first_name,
+                                       YaScooterOrderMainBtn.last_name,
+                                       YaScooterOrderMainBtn.address,
                                        OrderPageLocators.STATION_2,
-                                       DataOrderMainBtn.phone,
+                                       YaScooterOrderMainBtn.phone,
                                        OrderPageLocators.DATE_2,
                                        OrderPageLocators.TERM_2,
                                        OrderPageLocators.GREY_COLOR,
-                                       DataOrderMainBtn.comment)
+                                       YaScooterOrderMainBtn.comment)
         text = OrderPage(driver).check_success_order()
         assert 'Заказ оформлен' in text
