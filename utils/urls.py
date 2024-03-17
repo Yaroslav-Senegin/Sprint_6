@@ -1,5 +1,5 @@
 class Urls:
-    DZEN_HOME_PAGE = 'dzen.ru'
+    ZEN_HOME_PAGE = 'https://dzen.ru/?yredirect=true'
     YANDEX_HOME_PAGE = 'ya.ru'
     YANDEX_CAPTCHA_PAGE = 'yandex.ru'
     HOME_PAGE = 'https://qa-scooter.praktikum-services.ru/'

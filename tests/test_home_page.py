@@ -17,5 +17,5 @@ class TestHeaderLogo:
     def test_redirect_yandex_logo(self, driver):
         HomePage(driver).click_yandex_logo()
         driver.switch_to.window(driver.window_handles[1])
-        HomePage(driver).wait_navigating_url(Urls.DZEN_HOME_PAGE)
-        assert driver.current_url == Urls.DZEN_HOME_PAGE
+        HomePage(driver).wait_navigating_url(Urls.ZEN_HOME_PAGE)
+        assert driver.current_url == Urls.ZEN_HOME_PAGE
