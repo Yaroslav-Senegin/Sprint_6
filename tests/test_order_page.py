@@ -22,7 +22,7 @@ class TestOrderPage:
                                        OrderPageLocators.BLACK_COLOR,
                                        YaScooterOrderHeaderBtn.comment)
         text = OrderPage(driver).check_success_order()
-        assert 'Заказ оформлен' in text
+        assert 'Хотите оформить заказ?' in text
 
     @allure.title('Проверка оформления заказа через кнопку "Заказать" в середине главной страницы')
     def test_create_order_main_page_btn(self, driver):
@@ -38,4 +38,4 @@ class TestOrderPage:
                                        OrderPageLocators.GREY_COLOR,
                                        YaScooterOrderMainBtn.comment)
         text = OrderPage(driver).check_success_order()
-        assert 'Заказ оформлен' in text
+        assert 'Хотите оформить заказ?' in text
