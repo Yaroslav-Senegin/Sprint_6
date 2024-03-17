@@ -6,7 +6,7 @@ from utils.urls import Urls
 @pytest.fixture(scope='function')
 def driver():
     driver = webdriver.Chrome()
-    driver.get(Urls.MAIN_PAGE)
+    driver.get(Urls.HOME_PAGE)
     
     yield driver
     driver.quit()
