@@ -29,3 +29,7 @@ class BasePage:
 
     def wait_navigating_url(self, url):
         WebDriverWait(self.driver, 10).until(expected_conditions.url_to_be(url))
+
+    def tab_switch(self, driver):
+        driver.switch_to.window(driver.window_handles[1])
+        
