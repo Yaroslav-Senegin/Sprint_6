@@ -10,8 +10,9 @@ class TestQuestionsHomePage:
     @allure.title('Проверка ответов на вопросы из выпадающего списка «Вопросы о важном»')
     @pytest.mark.parametrize('number, expected_answer', YaScooterHomePageFAQ.answers)
     def test_question(self, driver, number, expected_answer):
-        HomePage(driver).get_cookies(HomePageLocators.COOKIES_BTN)
-        HomePage(driver).scroll(HomePageLocators.LAST_QUESTION)
-        HomePage(driver).click_question(number)
-        answer = HomePage(driver).get_answer(number)
+        hp = HomePage(driver)
+        hp.get_cookies(HomePageLocators.COOKIES_BTN)
+        hp.scroll(HomePageLocators.LAST_QUESTION)
+        hp.click_question(number)
+        answer = hp.get_answer(number)
         assert answer == expected_answer
