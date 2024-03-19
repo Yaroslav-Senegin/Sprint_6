@@ -1,5 +1,3 @@
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
 from locators.home_page_locators import HomePageLocators
 from pages.base_page import BasePage
 import allure
@@ -9,16 +7,14 @@ class HomePage(BasePage):
     def click_question(self, number):
         method, locator = HomePageLocators.QUESTION
         locator = locator.format(number)
-        WebDriverWait(self.driver, 5).until(
-            expected_conditions.visibility_of_element_located((method, locator)))
+        self.find_element((method, locator))
         return self.click_to_element((method, locator))
 
     @allure.step('Получение ответа')
     def get_answer(self, number):
         method, locator = HomePageLocators.ANSWER
         locator = locator.format(number)
-        WebDriverWait(self.driver, 5).until(
-            expected_conditions.visibility_of_element_located((method, locator)))
+        self.find_element((method, locator))
         return self.get_text((method, locator))
 
     @allure.step('Клик на Яндекс в шапке')
